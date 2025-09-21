@@ -1,0 +1,25 @@
+$utilities: map-merge(
+  $utilities,
+  (
+    "font-size": map-merge(
+        map-get($utilities, "font-size"),
+        (
+          responsive: true,
+        )
+      ),
+  )
+);
+
+// 字級
+$font-sizes: (
+  12: 12px, // fs-12
+  14: 14px,
+  16: 16px
+);
+
+@each $name, $size in $font-sizes {
+  .fs-#{$name} {
+    font-size: $size;
+    line-height: 1.5;
+  }
+}

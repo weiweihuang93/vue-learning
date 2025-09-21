@@ -1,0 +1,20 @@
+// ✅ Google Fonts CDN
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded&display=swap');
+
+// ✅ Bootstrap functions（不用 ../node_modules）
+@import 'bootstrap/scss/functions';
+
+// ✅ 你的自定義變數
+@import './helpers/variables';
+
+// ✅ Bootstrap 全套
+@import 'bootstrap/scss/bootstrap';
+
+// ✅ 自定義 utilities
+@import './helpers/utilities';
+
+// ✅ Bootstrap utilities API
+@import 'bootstrap/scss/utilities/api';

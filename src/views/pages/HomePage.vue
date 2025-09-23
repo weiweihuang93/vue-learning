@@ -1,10 +1,23 @@
 <script setup>
+import { computed } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination } from 'swiper/modules'
+
+import { useAppStore } from '@/composables/useAppStore'
+const { productsData } = useAppStore()
+
+const normalProducts = computed(() =>
+  productsData.value.filter((product) => product.type === 'normal'),
+)
+
+const fundingProducts = computed(() =>
+  productsData.value.filter((product) => product.type === 'funding'),
+)
 
 // Swiper 樣式
 import 'swiper/css'
 import 'swiper/css/navigation'
+import { categories } from '@/data/categories'
 </script>
 
 <template>
@@ -180,169 +193,47 @@ import 'swiper/css/navigation'
         <div class="col-lg-8">
           <!-- Breakpoint-lg -->
           <div class="row g-6 d-lg-flex d-none">
-            <div class="col-lg-6">
+            <div v-for="product in fundingProducts.slice(0, 4)" class="col-lg-6" :key="product.id">
               <div class="my-card course-card">
                 <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-4.png" alt="course" />
+                  <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
                   <div class="banner-tag-position">
                     <span class="tag-primary">優惠倒數 10 天</span>
                   </div>
                 </div>
                 <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">創意寫作工坊：從靈感到出版的全過程</h3>
+                  <h3 class="fs-6 mb-2">{{ product.title }}</h3>
 
                   <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                    <p>Kelly Hsu</p>
+                  <div class="card-author py-3">
+                    <span class="material-symbols-outlined"> account_circle </span>
+                    <p>{{ product.author }}</p>
                   </div>
 
                   <!-- 募資區塊 -->
                   <div class="card-funding">
                     <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 81 %</span>
-                      <span class="fs-14">已有 521 位同學加入</span>
+                      <span class="fs-16 fw-semibold text-primary-100"
+                        >募資進度 {{ product.funding.progress }} %</span
+                      >
+                      <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
                     </div>
 
                     <div class="progress" style="height: 8px">
                       <div
-                        style="width: 81%"
+                        :style="{ width: product.funding.progress + '%' }"
                         class="progress-bar"
                         role="progressbar"
-                        aria-valuenow="81"
+                        :aria-valuenow="product.funding.progress"
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
                     </div>
                     <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 2,480 </span>
-                      <span class="text-line">NT$ 3,200</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-1.png" alt="course" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 17 天</span>
-                  </div>
-                </div>
-                <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">健康廚房：營養均衡的素食料理指南</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-5.png" alt="avatar" />
-                    <p>希姐帶你吃</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 99 %</span>
-                      <span class="fs-14">已有 999 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        style="width: 99%"
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-valuenow="99"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 1,680 </span>
-                      <span class="text-line">NT$ 2,900</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-2.png" alt="course" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 9 天</span>
-                  </div>
-                </div>
-                <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">音樂製作入門：從零開始創作你的音樂</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-4.png" alt="avatar" />
-                    <p>K.Dee</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex flex-wrap justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 76 %</span>
-                      <span class="fs-14">已有 420 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        style="width: 76%"
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-valuenow="76"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 2,680 </span>
-                      <span class="text-line">NT$ 3,200</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-3.png" alt="course" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 1 天</span>
-                  </div>
-                </div>
-                <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">掌握商業攝影：打造你的專業攝影事業</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-6.png" alt="avatar" />
-                    <p>Mikeeee</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 98 %</span>
-                      <span class="fs-14">已有 290 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        style="width: 98%"
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-valuenow="98"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 1,980 </span>
-                      <span class="text-line">NT$ 3,200</span>
+                      <span class="fs-6 text-neutral-100 fw-semibold"
+                        >NT$ {{ product.price }}
+                      </span>
+                      <span class="text-line">NT$ {{ product.origin_price }}</span>
                     </div>
                   </div>
                 </div>
@@ -361,169 +252,47 @@ import 'swiper/css/navigation'
             :pagination="{ clickable: true }"
             :modules="[Pagination]"
           >
-            <SwiperSlide>
+            <SwiperSlide v-for="product in fundingProducts.slice(0, 4)" :key="product.id">
               <div class="my-card course-card">
                 <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-4.png" alt="course" />
+                  <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
                   <div class="banner-tag-position">
                     <span class="tag-primary">優惠倒數 10 天</span>
                   </div>
                 </div>
-                <div class="card-body p-4">
-                  <h3 class="fs-6 mb-2">創意寫作工坊：從靈感到出版的全過程</h3>
+                <div class="card-body py-6 px-4">
+                  <h3 class="fs-6 mb-2">{{ product.title }}</h3>
 
                   <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                    <p>Kelly Hsu</p>
+                  <div class="card-author py-3">
+                    <span class="material-symbols-outlined"> account_circle </span>
+                    <p>{{ product.author }}</p>
                   </div>
 
                   <!-- 募資區塊 -->
                   <div class="card-funding">
                     <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 81 %</span>
-                      <span class="fs-14">已有 521 位同學加入</span>
+                      <span class="fs-16 fw-semibold text-primary-100"
+                        >募資進度 {{ product.funding.progress }} %</span
+                      >
+                      <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
                     </div>
 
                     <div class="progress" style="height: 8px">
                       <div
-                        style="width: 81%"
+                        :style="{ width: product.funding.progress + '%' }"
                         class="progress-bar"
                         role="progressbar"
-                        aria-valuenow="81"
+                        :aria-valuenow="product.funding.progress"
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
                     </div>
                     <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 2,480 </span>
-                      <span class="text-line">NT$ 3,200</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-1.png" alt="course" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 17 天</span>
-                  </div>
-                </div>
-                <div class="card-body p-4">
-                  <h3 class="fs-6 mb-2">健康廚房：營養均衡的素食料理指南</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-5.png" alt="avatar" />
-                    <p>希姐帶你吃</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 99 %</span>
-                      <span class="fs-14">已有 999 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        style="width: 99%"
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-valuenow="99"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 1,680 </span>
-                      <span class="text-line">NT$ 2,900</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-2.png" alt="course" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 9 天</span>
-                  </div>
-                </div>
-                <div class="card-body p-4">
-                  <h3 class="fs-6 mb-2">音樂製作入門：從零開始創作你的音樂</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-4.png" alt="avatar" />
-                    <p>K.Dee</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex flex-wrap justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 76 %</span>
-                      <span class="fs-14">已有 420 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        style="width: 76%"
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-valuenow="76"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 2,680 </span>
-                      <span class="text-line">NT$ 3,200</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide>
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" src="@/assets/images/course-3.png" alt="course" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 1 天</span>
-                  </div>
-                </div>
-                <div class="card-body p-4">
-                  <h3 class="fs-6 mb-2">掌握商業攝影：打造你的專業攝影事業</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author mb-6">
-                    <img src="@/assets/images/avatar-6.png" alt="avatar" />
-                    <p>Mikeeee</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100">募資進度 98 %</span>
-                      <span class="fs-14">已有 290 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        style="width: 98%"
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-valuenow="98"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold">NT$ 1,980 </span>
-                      <span class="text-line">NT$ 3,200</span>
+                      <span class="fs-6 text-neutral-100 fw-semibold"
+                        >NT$ {{ product.price }}
+                      </span>
+                      <span class="text-line">NT$ {{ product.origin_price }}</span>
                     </div>
                   </div>
                 </div>
@@ -565,196 +334,48 @@ import 'swiper/css/navigation'
         }"
         :modules="[Navigation]"
       >
-        <SwiperSlide class="my-card course-card">
+        <SwiperSlide
+          v-for="product in normalProducts"
+          :key="product.id"
+          class="my-card course-card"
+        >
           <div>
             <div class="card-image">
-              <img class="card-img-top" src="@/assets/images/course-4.png" alt="course" />
+              <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
               <div class="banner-tag-position">
-                <span class="tag-alert">限時 8 折 🔥</span>
+                <span class="tag-alert"
+                  >{{ product.discount ? '限時 ' + product.discount + ' 折 🔥' : '限時優惠🔥' }}
+                </span>
               </div>
             </div>
             <div class="card-body p-4">
-              <h3 class="line-clamp-2 h-2em fs-6 mb-2">創意寫作工坊：從靈感到出版的全過程</h3>
+              <h3 class="line-clamp-2 h-2em fs-6 mb-2">{{ product.title }}</h3>
 
               <div class="flex-between-center">
                 <!-- 作者 -->
                 <div class="card-author">
-                  <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                  <p>Kelly Hsu</p>
+                  <span class="material-symbols-outlined"> account_circle </span>
+                  <p>{{ product.author }}</p>
                 </div>
 
                 <div class="card-price-col">
-                  <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                  <span class="text-line">NT$ 3,200</span>
+                  <span class="fs-6 text-primary-100 fw-semibold">NT$ {{ product.price }} </span>
+                  <span class="text-line">NT$ {{ product.origin_price }}</span>
                 </div>
               </div>
             </div>
             <div class="card-footer border-top p-4">
               <div class="flex-between-center">
                 <div class="card-category">
-                  <span class="tag-sm-neutral">中文創作</span>
-                  <span class="fs-14">已有 999 位同學加入</span>
+                  <span class="tag-sm-neutral">{{ product.subCategory }}</span>
+                  <span class="fs-14">已有 {{ product.stats.joinCount }} 位同學加入</span>
                 </div>
                 <div class="card-rating">
                   <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.0 </span>
-                  <span class="text-grey-300 fs-14 fw-medium">(333)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide class="my-card course-card">
-          <div>
-            <div class="card-image">
-              <img class="card-img-top" src="@/assets/images/course-5.png" alt="course" />
-              <div class="banner-tag-position">
-                <span class="tag-alert">限時 8 折 🔥</span>
-              </div>
-            </div>
-            <div class="card-body p-4">
-              <h3 class="line-clamp-2 h-2em fs-6 mb-2">小白也會！從零開始學習 Python 程式設計</h3>
-
-              <div class="flex-between-center">
-                <!-- 作者 -->
-                <div class="card-author">
-                  <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                  <p>Kelly Hsu</p>
-                </div>
-
-                <div class="card-price-col">
-                  <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                  <span class="text-line">NT$ 3,200</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer border-top p-4">
-              <div class="flex-between-center">
-                <div class="card-category">
-                  <span class="tag-sm-neutral">中文創作</span>
-                  <span class="fs-14">已有 999 位同學加入</span>
-                </div>
-                <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.0 </span>
-                  <span class="text-grey-300 fs-14 fw-medium">(333)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide class="my-card course-card">
-          <div>
-            <div class="card-image">
-              <img class="card-img-top" src="@/assets/images/course-6.png" alt="course" />
-              <div class="banner-tag-position">
-                <span class="tag-alert">限時 8 折 🔥</span>
-              </div>
-            </div>
-            <div class="card-body p-4">
-              <h3 class="line-clamp-2 h-2em fs-6 mb-2">全面掌握 JavaScript 開發技術</h3>
-
-              <div class="flex-between-center">
-                <!-- 作者 -->
-                <div class="card-author">
-                  <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                  <p>Kelly Hsu</p>
-                </div>
-
-                <div class="card-price-col">
-                  <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                  <span class="text-line">NT$ 3,200</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer border-top p-4">
-              <div class="flex-between-center">
-                <div class="card-category">
-                  <span class="tag-sm-neutral">程式開發</span>
-                  <span class="fs-14">已有 420 位同學加入</span>
-                </div>
-                <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.0 </span>
-                  <span class="text-grey-300 fs-14 fw-medium">(333)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide class="my-card course-card">
-          <div>
-            <div class="card-image">
-              <img class="card-img-top" src="@/assets/images/course-7.png" alt="course" />
-              <div class="banner-tag-position">
-                <span class="tag-alert">限時 8 折 🔥</span>
-              </div>
-            </div>
-            <div class="card-body p-4">
-              <h3 class="line-clamp-2 h-2em fs-6 mb-2">HTML & CSS 網頁設計基礎教程</h3>
-
-              <div class="flex-between-center">
-                <!-- 作者 -->
-                <div class="card-author">
-                  <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                  <p>Kelly Hsu</p>
-                </div>
-
-                <div class="card-price-col">
-                  <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                  <span class="text-line">NT$ 3,200</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer border-top p-4">
-              <div class="flex-between-center">
-                <div class="card-category">
-                  <span class="tag-sm-neutral">程式開發</span>
-                  <span class="fs-14">已有 420 位同學加入</span>
-                </div>
-                <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.0 </span>
-                  <span class="text-grey-300 fs-14 fw-medium">(333)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide class="my-card course-card">
-          <div>
-            <div class="card-image">
-              <img class="card-img-top" src="@/assets/images/course-8.png" alt="course" />
-              <div class="banner-tag-position">
-                <span class="tag-alert">限時 8 折 🔥</span>
-              </div>
-            </div>
-            <div class="card-body p-4">
-              <h3 class="line-clamp-2 h-2em fs-6 mb-2">更進一步！深入學習 Node.js 與後端開發</h3>
-
-              <div class="flex-between-center">
-                <!-- 作者 -->
-                <div class="card-author">
-                  <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                  <p>Kelly Hsu</p>
-                </div>
-
-                <div class="card-price-col">
-                  <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                  <span class="text-line">NT$ 3,200</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer border-top p-4">
-              <div class="flex-between-center">
-                <div class="card-category">
-                  <span class="tag-sm-neutral">程式開發</span>
-                  <span class="fs-14">已有 420 位同學加入</span>
-                </div>
-                <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.0 </span>
-                  <span class="text-grey-300 fs-14 fw-medium">(333)</span>
+                  <span class="text-black fs-14 fw-medium">{{ product.stats.rating }} </span>
+                  <span class="text-grey-300 fs-14 fw-medium"
+                    >({{ product.stats.ratingCount }})</span
+                  >
                 </div>
               </div>
             </div>
@@ -776,109 +397,52 @@ import 'swiper/css/navigation'
     <div class="bg-primary-100 bg-rounded py-11">
       <div class="container">
         <div class="row row-category-layout">
-          <div class="col-lg-6">
+          <div class="col-lg-7">
             <div class="category-group p-6 pb-lg-0">
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-1.png"
-                  alt="category-icon"
-                />
+              <RouterLink
+                :to="`/category/${cat.slug}`"
+                v-for="cat in categories.slice(0, 4)"
+                :key="cat.name"
+                class="category-link"
+                href="#"
+              >
+                <span
+                  class="category-icon material-symbols-outlined"
+                  :style="{ backgroundColor: cat.bgColor }"
+                >
+                  {{ cat.icon }}
+                </span>
 
                 <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">網路行銷</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">342 門課程</p>
+                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">{{ cat.name }}</p>
+                  <p class="fs-14 text-grey-600 text-nowrap">{{ cat.courseCount }} 門課程</p>
                 </div>
-              </a>
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-2.png"
-                  alt="category-icon"
-                />
-
-                <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">拍攝剪輯</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">563 門課程</p>
-                </div>
-              </a>
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-3.png"
-                  alt="category-icon"
-                />
-
-                <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">自我成長</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">490 門課程</p>
-                </div>
-              </a>
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-4.png"
-                  alt="category-icon"
-                />
-
-                <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">藝術設計</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">230 門課程</p>
-                </div>
-              </a>
+              </RouterLink>
             </div>
 
             <div class="category-group p-6">
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-5.png"
-                  alt="category-icon"
-                />
+              <RouterLink
+                :to="`/category/${cat.slug}`"
+                v-for="cat in categories.slice(4, 8)"
+                :key="cat.name"
+                class="category-link"
+                href="#"
+              >
+                <span
+                  class="category-icon material-symbols-outlined"
+                  :style="{ backgroundColor: cat.bgColor }"
+                >
+                  {{ cat.icon }}
+                </span>
 
                 <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">數據分析</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">395 門課程</p>
+                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">{{ cat.name }}</p>
+                  <p class="fs-14 text-grey-600 text-nowrap">{{ cat.courseCount }} 門課程</p>
                 </div>
-              </a>
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-6.png"
-                  alt="category-icon"
-                />
-
-                <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">投資理財</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">486 門課程</p>
-                </div>
-              </a>
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-7.png"
-                  alt="category-icon"
-                />
-
-                <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap mb-2">音樂創作</p>
-                  <p class="fs-14 text-grey-600 text-nowrap">283 門課程</p>
-                </div>
-              </a>
-              <a class="category-link" href="#">
-                <img
-                  class="category-icon"
-                  src="@/assets/images/icons/category-icon-8.png"
-                  alt="category-icon"
-                />
-
-                <div class="category-txt">
-                  <p class="fs-16 fw-semibold text-grey-900 text-nowrap">探索更多</p>
-                </div>
-              </a>
+              </RouterLink>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-5">
             <div class="category-info">
               <img src="@/assets/images/deco/polygon-1.png" alt="deco-polygon" />
               <div>
@@ -911,8 +475,8 @@ import 'swiper/css/navigation'
         :slides-per-view="1"
         :space-between="24"
         :breakpoints="{
-          1200: { slidesPerView: 3 },
-          992: { slidesPerView: 2 },
+          1400: { slidesPerView: 3 },
+          1200: { slidesPerView: 2 },
         }"
         :pagination="{ el: '.swiper-pagination', clickable: true }"
         :modules="[Pagination]"
@@ -923,21 +487,21 @@ import 'swiper/css/navigation'
               <img src="@/assets/images/teacher-3.png" alt="teacher" />
             </div>
             <div class="card-info">
-              <h3 class="fs-6 mb-6">Mr. Robert</h3>
+              <h3 class="fs-6 mb-6">全端工程師 Robert</h3>
               <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="tag-neutral">中文創作</span>
+                <span class="tag-neutral">全端開發</span>
                 <div class="card-rating">
                   <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.0</span>
-                  <span class="text-grey-300 fs-14 fw-medium">(333)</span>
+                  <span class="text-black fs-14 fw-medium">4.8</span>
+                  <span class="text-grey-300 fs-14 fw-medium">(1333)</span>
                 </div>
               </div>
               <p class="mb-6">
                 Robert
-                的線上課程深受學生喜愛。他的教學方法生動有趣，能夠深入淺出地講解複雜的音樂理論，並結合實際演奏技巧，使學生能夠快速進步。
+                的線上課程深受學生喜愛。他的教學方法生動有趣，能夠深入淺出地講解複雜的前端開發概念，並結合實際專案實作，使學生能夠快速提升開發能力。
               </p>
               <button class="btn btn-primary-100 text-nowrap fs-16 fw-semibold mt-auto">
-                探索 Mr. Robert 的教學課程
+                探索 Robert 的教學課程
               </button>
             </div>
           </div>
@@ -948,21 +512,21 @@ import 'swiper/css/navigation'
               <img src="@/assets/images/teacher-1.png" alt="teacher" />
             </div>
             <div class="card-info">
-              <h3 class="fs-6 mb-6">Kelly Beck</h3>
+              <h3 class="fs-6 mb-6">行銷顧問 Zoe</h3>
               <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="tag-neutral">英文寫作</span>
+                <span class="tag-neutral">行銷專家</span>
                 <div class="card-rating">
                   <span class="material-symbols-outlined icon-fill-yellow"> star </span>
                   <span class="text-black fs-14 fw-medium">4.8</span>
-                  <span class="text-grey-300 fs-14 fw-medium">(281)</span>
+                  <span class="text-grey-300 fs-14 fw-medium">(981)</span>
                 </div>
               </div>
               <p class="mb-6">
-                Kelly 的教學方式靈活且富有創意，能夠有效提升學生的寫作技巧和自信心。Kelly
-                注重實用性，針對學生的需求量身打造教學內容，並提供具體的反饋和建議。
+                Zoe
+                的教學方式靈活且富有創意，能夠有效提升學生的社群經營技巧與行銷思維。她注重實用性，會根據不同品牌與學生需求量身打造策略，並提供具體的數據分析與改善建議。
               </p>
               <button class="btn btn-primary-100 text-nowrap fs-16 fw-semibold mt-auto">
-                探索 Kelly Beck 的教學課程
+                探索 Zoe 的教學課程
               </button>
             </div>
           </div>
@@ -978,8 +542,8 @@ import 'swiper/css/navigation'
                 <span class="tag-neutral">音樂創作</span>
                 <div class="card-rating">
                   <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                  <span class="text-black fs-14 fw-medium">4.8</span>
-                  <span class="text-grey-300 fs-14 fw-medium">(1245)</span>
+                  <span class="text-black fs-14 fw-medium">4.6</span>
+                  <span class="text-grey-300 fs-14 fw-medium">(222)</span>
                 </div>
               </div>
               <p class="mb-6">

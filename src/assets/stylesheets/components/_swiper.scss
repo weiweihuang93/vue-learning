@@ -1,0 +1,82 @@
+// 共用 next, prev
+.swiper-button-next-custom,
+.swiper-button-prev-custom {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: $neutral-0;
+  color: $primary-100;
+  box-shadow: 0px 10px 15px -3px #0000001a;
+
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  span {
+    font-size: 24px;
+  }
+}
+.swiper-button-next-custom:hover,
+.swiper-button-prev-custom:hover {
+  background-color: $primary-100;
+  color: $neutral-0;
+}
+
+// 共用 pagination
+.swiper {
+  .swiper-pagination {
+    position: static;
+    margin-top: 24px;
+  }
+  .swiper-pagination-bullet-active {
+    width: 24px;
+    border-radius: 100px;
+  }
+}
+
+// section-banner
+.section-banner {
+  .swiper-slide {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      border-radius: 80px;
+      background-color: #ffffffb2;
+      transition: opacity 0.3s;
+      pointer-events: none; // 不擋滑動
+    }
+
+    &.swiper-slide-active::after {
+      opacity: 0; // 當前主圖不遮罩
+    }
+  }
+  .banner-position {
+    position: relative;
+  }
+  .swiper-button-prev-custom {
+    left: 70px;
+  }
+  .swiper-button-next-custom {
+    right: 70px;
+  }
+}
+
+// section-moreCourse
+// section-moreCodeCourse
+.section-moreCourse,
+.section-moreCodeCourse {
+  .swiper-button-prev-custom {
+    left: -28px;
+  }
+  .swiper-button-next-custom {
+    right: -28px;
+  }
+}

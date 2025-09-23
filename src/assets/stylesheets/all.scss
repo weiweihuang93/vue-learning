@@ -18,3 +18,12 @@
 
 // ✅ Bootstrap utilities API
 @import 'bootstrap/scss/utilities/api';
+
+@import './base/base';
+@import './components/swiper';
+@import './components/components';
+
+@import './pages/frontLayout';
+@import './pages/homePage';
+@import './pages/categoryPage';
+@import './pages/detailPage';

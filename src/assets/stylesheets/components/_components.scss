@@ -1,0 +1,244 @@
+// badge-cart 暫置
+.fs-12-badge {
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.btn-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: $neutral-80;
+  color: $neutral-0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+}
+
+.btn-xs {
+  padding: 4px 8px;
+}
+
+/* 實心 */
+.btn-primary-100 {
+  background-color: $primary-100;
+  color: $neutral-0;
+
+  &:hover {
+    background-color: $primary-120;
+  }
+}
+
+.btn-neutral {
+  background-color: $neutral-0;
+  color: $neutral-80;
+
+  &:hover,
+  &.active {
+    background-color: $neutral-0;
+    border: 1px solid $primary-100;
+    color: $primary-100;
+
+    .material-symbols-outlined {
+      color: inherit;
+    }
+  }
+}
+
+/* 外框 */
+.btn-outline-neutral-40 {
+  background-color: $neutral-0;
+  border: 1px solid $neutral-40;
+  color: $neutral-80;
+
+  &:hover {
+    background-color: $primary-100;
+    color: $neutral-0;
+  }
+  &.btn-primary-100, // 當被 active-class 套用
+  &.router-link-active {
+    color: $neutral-0;
+    background-color: $primary-100;
+    border-color: $primary-100;
+  }
+}
+
+// 共用元件
+.tag-primary {
+  border-radius: 100px;
+  padding: 8px 12px;
+  font-weight: $font-weight-semibold;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: $primary-10;
+  color: $primary-100;
+}
+
+.tag-alert {
+  border-radius: 100px;
+  padding: 8px 12px;
+  font-weight: $font-weight-semibold;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: $alert-10;
+  color: $alert-100;
+}
+
+.tag-neutral {
+  border-radius: 100px;
+  padding: 8px 12px;
+  font-weight: $font-weight-semibold;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: $neutral-40;
+  color: $neutral-80;
+}
+
+.tag-primary {
+  border-radius: 100px;
+  padding: 8px 12px;
+  font-weight: $font-weight-semibold;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: $primary-10;
+  color: $primary-100;
+}
+
+.tag-sm-alert {
+  border-radius: 100px;
+  padding: 4px 8px;
+  font-weight: $font-weight-normal;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: $alert-10;
+  color: $alert-100;
+}
+
+.tag-sm-neutral {
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-weight: $font-weight-normal;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: $neutral-40;
+  color: $neutral-80;
+}
+
+// 共用卡片樣式
+.my-card {
+  border-radius: 20px;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  background-color: $neutral-0;
+}
+
+// .section-moreCourse{
+.course-card {
+  .card-image {
+    position: relative;
+    height: 200px;
+
+    .card-img-top {
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner-tag-position {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+  }
+
+  // section-course, section-moreCourse
+  .card-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    img {
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  // section-course 募資區塊
+  .card-funding {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  // section-course 募資區塊
+  .card-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  // section-moreCourse
+  .card-price-col {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  // section-moreCourse
+  .card-category {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  // section-moreCourse
+  .card-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  // section-instructor
+  .card-author-des {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+// 共用
+.nav-tabs {
+  .nav-link {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 32px;
+      height: 4px;
+      background-color: $primary-100;
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover::after,
+    &.active::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+  }
+  .nav-link.active {
+    font-weight: $font-weight-semibold;
+  }
+
+  .nav-link:hover {
+    font-weight: $font-weight-semibold;
+  }
+}

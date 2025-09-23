@@ -1,0 +1,139 @@
+body {
+  letter-spacing: 0.02rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+span {
+  color: inherit;
+}
+
+img {
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+ol,
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.material-symbols-outlined {
+  vertical-align: middle;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+
+  &.icon-fill-yellow {
+    font-size: 12px;
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    color: #f6bd2b;
+  }
+
+  // 統一處理填滿
+  &.is-fill {
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+  }
+}
+
+// 多行截斷
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 限制最多 2 行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.h-2em {
+  height: 64px;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.text-line {
+  font-size: 14px;
+  text-decoration: line-through;
+  color: $grey-300;
+}
+
+// 共用標題 位置
+.title-font,
+.subtitle-font {
+  text-align: center;
+
+  @media (max-width: 992px) {
+    text-align: left;
+  }
+}
+
+// 共用標題裝飾
+.title-deco {
+  position: relative;
+  z-index: 1;
+}
+.title-deco::before {
+  position: absolute;
+  content: '';
+  width: 60px;
+  height: 60px;
+  background: url(../../images/deco/flower-1.png);
+  top: -24px;
+  left: -24px;
+  z-index: -1;
+}
+
+// drop
+.w-16 {
+  width: 16px;
+  height: 16px;
+}
+
+.w-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.w-32 {
+  width: 32px;
+  height: 32px;
+}
+
+.w-80 {
+  width: 80px;
+  height: 80px;
+}
+
+.logo {
+  max-width: 200px;
+}
+.logo-white {
+  max-width: 200px;
+}
+
+.flex-between-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

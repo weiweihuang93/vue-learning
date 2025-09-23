@@ -1,0 +1,323 @@
+// section-banner
+.section-banner {
+  padding-bottom: 72px;
+
+  .banner-info {
+    position: relative;
+    border-radius: 80px;
+    overflow: hidden;
+  }
+
+  .banner-image {
+    width: 100%;
+    height: calc(100vh - 153px);
+    object-fit: cover;
+    border-radius: 80px;
+
+    @media (max-width: 1200px) {
+      height: calc(100vh - 99px);
+    }
+
+    @media (max-width: 992px) {
+      height: calc(100vh - 148px);
+    }
+  }
+
+  .banner-deco-position {
+    position: absolute;
+    top: -300px;
+    left: -240px;
+  }
+
+  .banner-slogan-position {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+
+  .banner-slogan {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 80px 32px 120px;
+    border-radius: 0 80px;
+
+    span {
+      font-size: 44px;
+    }
+  }
+
+  .banner-tag-position {
+    position: absolute;
+    left: 40px;
+    bottom: 144px;
+  }
+
+  .banner-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 32px 16px 16px;
+    border-radius: 100px;
+    background-color: $neutral-0;
+  }
+
+  @media (max-width: 992px) {
+    .banner-info,
+    .banner-image,
+    .banner-slogan {
+      border-radius: 0;
+    }
+
+    .banner-deco-position {
+      display: none;
+    }
+
+    .banner-slogan-position {
+      position: relative;
+    }
+
+    .banner-slogan {
+      justify-content: center;
+      gap: 16px;
+      padding: 16px 0;
+
+      span {
+        font-size: 16px;
+      }
+    }
+    .banner-tag-position {
+      bottom: 97px;
+    }
+
+    .banner-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10.5px 24px 10.5px 8px;
+      border-radius: 100px;
+      background-color: $neutral-0;
+
+      span {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+// section-course
+.section-course {
+  position: relative;
+
+  & .deco {
+    position: absolute;
+    width: 560px;
+    height: 560px;
+    background: url(../../images/deco/flower-2.png) no-repeat center/contain;
+    top: 0;
+    left: -60px;
+    z-index: -1;
+
+    @media (max-width: 992px) {
+      width: 200px;
+      height: 200px;
+      left: -100px;
+    }
+  }
+
+  .card-image {
+    position: relative;
+    height: 250px;
+  }
+
+  .course-pt {
+    padding-top: 160px;
+
+    @media (max-width: 992px) {
+      padding-top: 0;
+    }
+  }
+
+  // category-group
+  .category-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    @media (max-width: 992px) {
+      flex-wrap: nowrap;
+      margin-bottom: 16px;
+
+      .btn {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+// section-moreCourse
+.section-moreCourse {
+  position: relative;
+
+  &.bg {
+    background: linear-gradient(180deg, #f0f6ff 0%, #ffffff 100%);
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 480px;
+    height: 480px;
+    background-image: url(../../images/deco/flower-3.png);
+    left: -240px;
+    bottom: 114px;
+    z-index: 0;
+  }
+
+  .course-card {
+    width: 306px;
+
+    @media (max-width: 1200px) {
+      // width: 450px;
+    }
+  }
+}
+
+.section-category {
+  .row-category-layout {
+    align-items: center;
+  }
+
+  .bg-rounded {
+    border-radius: 80px;
+  }
+
+  // category-info
+  .category-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: start;
+    color: $neutral-0;
+  }
+
+  // category-group
+  .category-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .category-link {
+    width: 306px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 20px;
+    background-color: $neutral-0;
+    box-shadow: 0px 25px 50px -12px #0000001f;
+
+    &:hover,
+    &:active {
+      background-color: $neutral-40;
+    }
+
+    .category-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+
+      width: 64px;
+      height: 64px;
+      font-size: 32px;
+      color: $neutral-0;
+    }
+  }
+
+  .category-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    @media (max-width: 992px) {
+      flex-wrap: nowrap;
+      margin-bottom: 16px;
+
+      .btn {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    .row-category-layout {
+      flex-direction: column-reverse;
+      gap: 40px;
+    }
+
+    .bg-rounded {
+      border-radius: 40px;
+    }
+
+    .category-info {
+      flex-direction: column;
+    }
+
+    .category-group {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 24px;
+      overflow-x: auto;
+    }
+
+    .category-link {
+      flex: 0 0 auto;
+      width: 272px;
+    }
+  }
+}
+
+.section-prof {
+  background-image: url(../../images/deco/line-1.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  .profSwiper .swiper-slide {
+    display: flex; /* 讓 slide 內容可自動撐滿 */
+    height: auto;
+    justify-content: center;
+  }
+
+  .prof-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-img {
+    margin-left: 80px;
+  }
+
+  .card-info {
+    width: 384px;
+    position: relative;
+    background-color: $neutral-0;
+    border-radius: 20px;
+    box-shadow: 0px 25px 50px -12px #0000001f;
+    padding: 24px;
+    margin-top: -100px;
+    margin-right: 32px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}

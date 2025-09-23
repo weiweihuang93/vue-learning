@@ -1,248 +1,186 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
+import { RouterLink, RouterView } from 'vue-router'
+import { categories } from '@/data/categories.js'
+
+import { useAppStore } from '@/composables/useAppStore'
+const { productsData, getAllProducts } = useAppStore()
+
+const activeCategory = ref(null)
+const activeSubCategory = ref(null)
+
+// 組件掛載時執行
+onMounted(() => {
+  getAllProducts()
+})
+
+const normalProducts = computed(() =>
+  productsData.value.filter((product) => product.type === 'normal'),
+)
+
+const filteredProductsData = computed(() => {
+  let products = []
+
+  // 沒選主分類 → 顯示所有商品
+  if (!activeCategory.value) {
+    products = normalProducts.value
+  }
+  // 有選子分類
+  else if (activeSubCategory.value) {
+    products = normalProducts.value.filter(
+      (p) =>
+        p.category === activeCategory.value.name && p.subCategory === activeSubCategory.value.name,
+    )
+  }
+  // 選了主分類 → 只顯示對應主分類商品
+  else {
+    products = normalProducts.value.filter((p) => p.category === activeCategory.value.name)
+  }
+
+  // 排序：依 stats.joinCount 由大到小
+  return products.slice().sort((a, b) => b.stats.joinCount - a.stats.joinCount)
+})
 </script>
 
 <template>
+  {{ activeCategory }}
   <header class="site-header pt-8 pb-4">
     <div class="container">
       <nav class="navbar navbar-expand-xl">
         <!-- logo -->
-        <a class="navbar-brand me-6" href="#">
+        <a class="navbar-brand me-6" href="/">
           <img class="logo" src="@/assets/images/logo.png" alt="logo" />
         </a>
         <!-- 桌面版 探索 + form -->
         <div class="navbar-desktop d-xl-flex d-none">
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-6" href="#" role="button" aria-expanded="false">
+              <a
+                class="nav-link dropdown-toggle px-6"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 探索
               </a>
               <!-- dropdown-menu -->
               <div class="dropdown-menu overflow-hidden">
                 <div class="d-flex">
+                  <!-- 探索全部 -->
                   <ul class="dropdown-menu-group bg-neutral-40 p-3">
                     <li>
-                      <a class="dropdown-item list-group-link mb-2" href="#">探索全部</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >音樂<span class="material-symbols-outlined fs-5">chevron_right</span></a
+                      <RouterLink
+                        :to="{ path: '/category' }"
+                        class="dropdown-item list-group-link mb-2"
+                        >探索全部</RouterLink
                       >
                     </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >攝影<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link active" href="#"
-                        >程式<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >藝術<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >人文<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >行銷<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >投資理財<span class="material-symbols-outlined fs-5"
+                    <li
+                      v-for="cat in categories"
+                      :key="cat.name"
+                      @mouseenter="activeCategory = cat"
+                    >
+                      <RouterLink
+                        :to="{ path: `/category/${cat.slug}` }"
+                        class="dropdown-item list-group-link"
+                        >{{ cat.name }}
+                        <span class="material-symbols-outlined fs-5"
                           >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >心靈成長<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >職場技能<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >生活品味<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
+                        ></RouterLink
                       >
                     </li>
                   </ul>
-                  <ul class="dropdown-menu-group bg-neutral-0 p-3">
+                  <!-- 子分類 -->
+                  <ul class="dropdown-menu-group bg-neutral-0 p-3" v-if="activeCategory">
                     <li>
-                      <a class="dropdown-item list-group-link mb-2" href="#">所有課程</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >程式入門<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
+                      <a class="dropdown-item list-group-link mb-2" href="#"
+                        >所有{{ activeCategory.name }}</a
                       >
                     </li>
-                    <li>
-                      <a class="dropdown-item list-group-link active" href="#"
-                        >網頁前端<span class="material-symbols-outlined fs-5"
+                    <li
+                      v-for="sub in activeCategory.subCategories"
+                      :key="sub"
+                      @mouseenter="activeSubCategory = sub"
+                    >
+                      <RouterLink
+                        :to="{ path: `/category/${activeCategory.slug}/${sub.slug}` }"
+                        class="dropdown-item list-group-link"
+                        href="#"
+                        >{{ sub.name
+                        }}<span class="material-symbols-outlined fs-5"
                           >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >網頁後端<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >網站架設<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >資訊安全<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >程式語言<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >遊戲開發<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >資料科學<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >人工智慧<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
-                      >
-                    </li>
-                    <li>
-                      <a class="dropdown-item list-group-link" href="#"
-                        >行動應用<span class="material-symbols-outlined fs-5"
-                          >chevron_right</span
-                        ></a
+                        ></RouterLink
                       >
                     </li>
                   </ul>
                   <ul class="dropdown-menu-group bg-neutral-0 py-3 px-6">
                     <div class="dropdown-menu-title d-flex gap-2">
                       <img class="w-24" src="@/assets/images/icons/ic_fire.png" alt="ic_fire" />
-                      <h2 class="fs-16 text-neutral-80">熱門網頁前端課程</h2>
+                      <h2 class="fs-16 text-neutral-80">
+                        熱門 {{ activeSubCategory?.name || activeCategory?.name }} 課程
+                      </h2>
                     </div>
 
-                    <div class="course-card border-bottom py-4">
-                      <div class="d-flex gap-2">
-                        <div class="card-image">
-                          <img
-                            class="card-img-top"
-                            src="@/assets/images/course-5.png"
-                            alt="course"
-                          />
-                          <div class="banner-tag-position">
-                            <span class="tag-sm-alert">8 折</span>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h3 class="line-clamp-2 fs-6">小白也會！從零開始學習 Python 程式設計</h3>
-
-                          <div class="flex-between-center py-4">
-                            <!-- 作者 -->
-                            <div class="card-author">
-                              <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                              <p>Kelly Hsu</p>
-                            </div>
-
-                            <div class="card-price-col">
-                              <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                              <span class="text-line">NT$ 3,200</span>
+                    <!-- 有課程就渲染課程列表 -->
+                    <div v-if="filteredProductsData.length">
+                      <div
+                        v-for="product in filteredProductsData.slice(0, 3)"
+                        :key="product.id"
+                        class="course-card border-bottom py-4"
+                      >
+                        <div class="d-flex gap-2">
+                          <div class="card-image">
+                            <img class="card-img-top" :src="product.imageUrl" :alt="product.name" />
+                            <div class="banner-tag-position">
+                              <span class="tag-sm-alert">{{
+                                product.discount ? `${product.discount} 折` : '優惠'
+                              }}</span>
                             </div>
                           </div>
-                          <div class="flex-between-center border-top py-2">
-                            <div class="card-category">
-                              <span class="fs-14">已有 420 位同學加入</span>
+                          <div class="card-body">
+                            <h3 class="line-clamp-2 fs-6">{{ product.title }}</h3>
+
+                            <div class="flex-between-center py-4">
+                              <!-- 作者 -->
+                              <div class="card-author">
+                                <span class="material-symbols-outlined"> account_circle </span>
+                                <p>{{ product.author }}</p>
+                              </div>
+
+                              <div class="card-price-col">
+                                <span class="fs-16 text-primary-100 fw-semibold"
+                                  >NT$ {{ product.price }}
+                                </span>
+                                <span class="text-line">NT$ {{ product.origin_price }}</span>
+                              </div>
                             </div>
-                            <div class="card-rating">
-                              <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                              <span class="text-black fs-14 fw-medium">4.0 </span>
-                              <span class="text-grey-300 fs-14 fw-medium">(333)</span>
+                            <div class="flex-between-center border-top py-2">
+                              <div class="card-category">
+                                <span class="fs-14"
+                                  >已有 {{ product.stats.joinCount }} 位同學加入</span
+                                >
+                              </div>
+                              <div class="card-rating">
+                                <span class="material-symbols-outlined icon-fill-yellow">
+                                  star
+                                </span>
+                                <span class="text-black fs-14 fw-medium"
+                                  >{{ product.stats.rating }}
+                                </span>
+                                <span class="text-grey-300 fs-14 fw-medium"
+                                  >({{ product.stats.ratingCount }})</span
+                                >
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="course-card border-bottom py-4">
-                      <div class="d-flex gap-2">
-                        <div class="card-image">
-                          <img
-                            class="card-img-top"
-                            src="@/assets/images/course-5.png"
-                            alt="course"
-                          />
-                          <div class="banner-tag-position">
-                            <span class="tag-sm-alert">8 折</span>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h3 class="line-clamp-2 fs-6">小白也會！從零開始學習 Python 程式設計</h3>
-
-                          <div class="flex-between-center py-4">
-                            <!-- 作者 -->
-                            <div class="card-author">
-                              <img src="@/assets/images/avatar-2.png" alt="avatar" />
-                              <p>Kelly Hsu</p>
-                            </div>
-
-                            <div class="card-price-col">
-                              <span class="fs-6 text-primary-100 fw-semibold">NT$ 2,480 </span>
-                              <span class="text-line">NT$ 3,200</span>
-                            </div>
-                          </div>
-                          <div class="flex-between-center border-top py-2">
-                            <div class="card-category">
-                              <span class="fs-14">已有 420 位同學加入</span>
-                            </div>
-                            <div class="card-rating">
-                              <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                              <span class="text-black fs-14 fw-medium">4.0 </span>
-                              <span class="text-grey-300 fs-14 fw-medium">(333)</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <!-- 無課程就顯示提示 -->
+                    <div v-else class="course-card flex-center py-4">
+                      <p class="text-muted py-4"></p>
+                      暫無相關課程
                     </div>
                   </ul>
                 </div>
@@ -408,7 +346,10 @@ import { RouterView } from 'vue-router'
         </ul>
       </div>
       <div class="footer-bottom">
-        <p class="fs-14">copyright © 2024 LEARNING 課程網站 All Rights Reserved.</p>
+        <div>
+          <p class="fs-14">copyright © 2024 LEARNING 課程網站 All Rights Reserved.</p>
+          <p>本網站僅供作品參考，並非真實營運販售</p>
+        </div>
         <div class="footer-social">
           <a href="#"
             ><svg

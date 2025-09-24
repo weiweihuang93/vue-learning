@@ -1,0 +1,17 @@
+.pagination {
+  gap: 8px;
+
+  .page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+  }
+  .page-item.disabled .page-link,
+  .page-link:hover,
+  .page-link.active {
+    border: 0;
+  }
+}

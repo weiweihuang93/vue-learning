@@ -1,0 +1,194 @@
+.section-codeCourse {
+  position: relative;
+  overflow: hidden;
+
+  .decoration {
+    position: absolute;
+    inset: 0; // 佔滿區塊，方便定位子元素
+    z-index: 0;
+
+    .deco {
+      position: absolute;
+    }
+    .deco-1 {
+      left: -52px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .deco-2 {
+      right: 24px;
+      bottom: 0;
+      transform: translateY(50%);
+    }
+    .deco-3 {
+      left: 150px;
+      top: 80px;
+    }
+    .deco-4 {
+      right: 360px;
+      top: 40px;
+    }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  // category-group
+  .category-group {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+
+    .btn {
+      white-space: nowrap;
+    }
+  }
+
+  .category-link {
+    border: 1px solid $neutral-40;
+    background-color: $neutral-0;
+
+    &:hover,
+    &:active {
+      background-color: $primary-100;
+      color: $neutral-0;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .decoration {
+      .deco-1 {
+        left: auto;
+        right: -65px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .deco-2 {
+        display: none;
+      }
+      .deco-4 {
+        display: none;
+      }
+    }
+  }
+}
+
+// section-topic
+.section-topic {
+  .category-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .category-link {
+    width: 196px;
+    padding: 24px 0;
+    border-radius: 50px;
+    background-color: $neutral-0;
+    border: 1px solid $neutral-40;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover,
+    &:active {
+      background-color: $neutral-40;
+    }
+  }
+}
+
+//
+.section-moreCodeCourse {
+  .course-card {
+    width: 306px;
+  }
+
+  @media (max-width: 992px) {
+    width: 327px;
+  }
+}
+
+.section-instructor {
+  text-align: center;
+
+  .course-card {
+    border: 1px solid $neutral-40;
+  }
+
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.section-courseList {
+  .courseList-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-tabs {
+    .nav-item {
+      border-right: 1px solid $neutral-40;
+    }
+    .nav-item:last-child {
+      border-right: none;
+    }
+    .nav-link {
+      padding: 8px 16px;
+    }
+    .nav-link {
+      position: static;
+    }
+    .nav-link::after {
+      content: none; // 直接讓偽元素消失
+    }
+    .nav-link.active {
+      font-weight: $font-weight-semibold;
+    }
+    .nav-link:hover {
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  .pagination-wrapper {
+    display: flex;
+    justify-content: end;
+  }
+
+  @media (max-width: 992px) {
+    .courseList-group {
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .my-card {
+      border-radius: 0;
+      box-shadow: none;
+      border-bottom: 1px solid $neutral-40;
+    }
+
+    .course-card {
+      .card-image {
+        width: 30%;
+      }
+
+      .card-img-top {
+        border-radius: 12px;
+      }
+
+      .card-body {
+        flex: 1 1 auto; // 剩餘空間填滿
+      }
+    }
+
+    .pagination-wrapper {
+      justify-content: center;
+    }
+  }
+}

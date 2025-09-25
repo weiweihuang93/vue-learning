@@ -29,25 +29,17 @@ ul {
     'wght' 400,
     'GRAD' 0,
     'opsz' 24;
+}
+.is-fill {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
 
-  &.icon-fill-yellow {
-    font-size: 12px;
-    font-variation-settings:
-      'FILL' 1,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
-    color: #f6bd2b;
-  }
-
-  // 統一處理填滿
-  &.is-fill {
-    font-variation-settings:
-      'FILL' 1,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
-  }
+.fill-yellow {
+  color: #f6bd2b;
 }
 
 // 多行截斷

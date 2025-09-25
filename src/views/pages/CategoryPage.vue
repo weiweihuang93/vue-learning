@@ -109,7 +109,7 @@ const pages = computed(() => {
       <img class="deco deco-4" src="@/assets/images/deco/polygon-2.png" alt="polygon-2" />
     </div>
     <div class="container">
-      <nav aria-label="breadcrumb mb-lg-8 mb-4">
+      <nav aria-label="breadcrumb" class="mb-lg-8 mb-4">
         <ol class="breadcrumb">
           <!-- 探索 -->
           <li class="breadcrumb-item">
@@ -190,48 +190,52 @@ const pages = computed(() => {
           :modules="[Pagination]"
         >
           <SwiperSlide v-for="product in fundingProducts" :key="product.id">
-            <div class="my-card course-card">
-              <div class="card-image h-300">
-                <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
-                <div class="banner-tag-position">
-                  <span class="tag-primary">優惠倒數 10 天</span>
+            <RouterLink :to="`/product/${product.id}`">
+              <div class="my-card course-card">
+                <div class="card-image h-300">
+                  <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
+                  <div class="banner-tag-position">
+                    <span class="tag-primary">優惠倒數 10 天</span>
+                  </div>
+                </div>
+                <div class="card-body py-6 px-4">
+                  <h3 class="fs-6 mb-2">{{ product.title }}</h3>
+
+                  <!-- 作者 -->
+                  <div class="card-author py-3">
+                    <span class="material-symbols-outlined"> account_circle </span>
+                    <p>{{ product.author }}</p>
+                  </div>
+
+                  <!-- 募資區塊 -->
+                  <div class="card-funding">
+                    <div class="d-flex justify-content-between">
+                      <span class="fs-16 fw-semibold text-primary-100"
+                        >募資進度 {{ product.funding.progress }} %</span
+                      >
+                      <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
+                    </div>
+
+                    <div class="progress" style="height: 8px">
+                      <div
+                        :style="{ width: product.funding.progress + '%' }"
+                        class="progress-bar"
+                        role="progressbar"
+                        :aria-valuenow="product.funding.progress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                    <div class="card-price">
+                      <span class="fs-6 text-neutral-100 fw-semibold"
+                        >NT$ {{ product.price }}
+                      </span>
+                      <span class="text-line">NT$ {{ product.origin_price }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="card-body py-6 px-4">
-                <h3 class="fs-6 mb-2">{{ product.title }}</h3>
-
-                <!-- 作者 -->
-                <div class="card-author py-3">
-                  <span class="material-symbols-outlined"> account_circle </span>
-                  <p>{{ product.author }}</p>
-                </div>
-
-                <!-- 募資區塊 -->
-                <div class="card-funding">
-                  <div class="d-flex justify-content-between">
-                    <span class="fs-16 fw-semibold text-primary-100"
-                      >募資進度 {{ product.funding.progress }} %</span
-                    >
-                    <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
-                  </div>
-
-                  <div class="progress" style="height: 8px">
-                    <div
-                      :style="{ width: product.funding.progress + '%' }"
-                      class="progress-bar"
-                      role="progressbar"
-                      :aria-valuenow="product.funding.progress"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <div class="card-price">
-                    <span class="fs-6 text-neutral-100 fw-semibold">NT$ {{ product.price }} </span>
-                    <span class="text-line">NT$ {{ product.origin_price }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </RouterLink>
           </SwiperSlide>
         </swiper>
         <!-- 沒有資料 -->
@@ -317,50 +321,56 @@ const pages = computed(() => {
         <div class="tab-pane fade show active">
           <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-6 mb-8">
             <div v-for="product in paginatedNormalProducts" :key="product.id" class="col">
-              <div class="my-card course-card">
-                <div class="d-flex d-lg-block">
-                  <div class="card-image">
-                    <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
-                    <div class="banner-tag-position">
-                      <span class="tag-alert"
-                        >{{
-                          product.discount ? '限時 ' + product.discount + ' 折 🔥' : '限時優惠🔥'
-                        }}
-                      </span>
-                    </div>
-                  </div>
-                  <div class="card-body p-4">
-                    <h3 class="line-clamp-2 h-2em fs-6 mb-2">{{ product.title }}</h3>
-
-                    <div class="flex-between-center p-4">
-                      <div class="card-author">
-                        <span class="material-symbols-outlined"> account_circle </span>
-                        <p>{{ product.author }}</p>
-                      </div>
-
-                      <div class="card-price-col">
-                        <span class="fs-6 text-primary-100 fw-semibold"
-                          >NT$ {{ product.price }}
+              <RouterLink :to="`/product/${product.id}`">
+                <div class="my-card course-card">
+                  <div class="d-flex d-lg-block">
+                    <div class="card-image">
+                      <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
+                      <div class="banner-tag-position">
+                        <span class="tag-alert"
+                          >{{
+                            product.discount ? '限時 ' + product.discount + ' 折 🔥' : '限時優惠🔥'
+                          }}
                         </span>
-                        <span class="text-line">NT$ {{ product.origin_price }}</span>
                       </div>
                     </div>
-                    <div class="flex-between-center border-top p-4">
-                      <div class="card-category">
-                        <span class="tag-sm-neutral">{{ product.subCategory }}</span>
-                        <span class="fs-14">已有 {{ product.stats.joinCount }} 位同學加入</span>
+                    <div class="card-body p-4">
+                      <h3 class="line-clamp-2 h-2em fs-6 mb-2">{{ product.title }}</h3>
+
+                      <div class="flex-between-center p-4">
+                        <div class="card-author">
+                          <span class="material-symbols-outlined"> account_circle </span>
+                          <p>{{ product.author }}</p>
+                        </div>
+
+                        <div class="card-price-col">
+                          <span class="fs-6 text-primary-100 fw-semibold"
+                            >NT$ {{ product.price }}
+                          </span>
+                          <span class="text-line">NT$ {{ product.origin_price }}</span>
+                        </div>
                       </div>
-                      <div class="card-rating">
-                        <span class="material-symbols-outlined icon-fill-yellow"> star </span>
-                        <span class="text-black fs-14 fw-medium">{{ product.stats.rating }} </span>
-                        <span class="text-grey-300 fs-14 fw-medium"
-                          >({{ product.stats.ratingCount }})</span
-                        >
+                      <div class="flex-between-center border-top p-4">
+                        <div class="card-category">
+                          <span class="tag-sm-neutral">{{ product.subCategory }}</span>
+                          <span class="fs-14">已有 {{ product.stats.joinCount }} 位同學加入</span>
+                        </div>
+                        <div class="card-rating">
+                          <span class="material-symbols-outlined is-fill fill-yellow fs-12">
+                            star
+                          </span>
+                          <span class="text-black fs-14 fw-medium"
+                            >{{ product.stats.rating }}
+                          </span>
+                          <span class="text-grey-300 fs-14 fw-medium"
+                            >({{ product.stats.ratingCount }})</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </RouterLink>
             </div>
           </div>
         </div>

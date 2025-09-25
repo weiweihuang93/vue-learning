@@ -13,7 +13,6 @@ const productData = ref({})
 const getProduct = async () => {
   try {
     const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/product/${productId}`)
-    console.log(res)
     productData.value = res.data.product
   } catch (err) {
     console.error(err)

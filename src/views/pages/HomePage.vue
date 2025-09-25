@@ -194,50 +194,52 @@ import { categories } from '@/data/categories'
           <!-- Breakpoint-lg -->
           <div class="row g-6 d-lg-flex d-none">
             <div v-for="product in fundingProducts.slice(0, 4)" class="col-lg-6" :key="product.id">
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 10 天</span>
+              <RouterLink :to="`/product/${product.id}`">
+                <div class="my-card course-card">
+                  <div class="card-image">
+                    <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
+                    <div class="banner-tag-position">
+                      <span class="tag-primary">優惠倒數 10 天</span>
+                    </div>
+                  </div>
+                  <div class="card-body py-6 px-4">
+                    <h3 class="fs-6 mb-2">{{ product.title }}</h3>
+
+                    <!-- 作者 -->
+                    <div class="card-author py-3">
+                      <span class="material-symbols-outlined"> account_circle </span>
+                      <p>{{ product.author }}</p>
+                    </div>
+
+                    <!-- 募資區塊 -->
+                    <div class="card-funding">
+                      <div class="d-flex justify-content-between">
+                        <span class="fs-16 fw-semibold text-primary-100"
+                          >募資進度 {{ product.funding.progress }} %</span
+                        >
+                        <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
+                      </div>
+
+                      <div class="progress" style="height: 8px">
+                        <div
+                          :style="{ width: product.funding.progress + '%' }"
+                          class="progress-bar"
+                          role="progressbar"
+                          :aria-valuenow="product.funding.progress"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <div class="card-price">
+                        <span class="fs-6 text-neutral-100 fw-semibold"
+                          >NT$ {{ product.price }}
+                        </span>
+                        <span class="text-line">NT$ {{ product.origin_price }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">{{ product.title }}</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author py-3">
-                    <span class="material-symbols-outlined"> account_circle </span>
-                    <p>{{ product.author }}</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100"
-                        >募資進度 {{ product.funding.progress }} %</span
-                      >
-                      <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        :style="{ width: product.funding.progress + '%' }"
-                        class="progress-bar"
-                        role="progressbar"
-                        :aria-valuenow="product.funding.progress"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold"
-                        >NT$ {{ product.price }}
-                      </span>
-                      <span class="text-line">NT$ {{ product.origin_price }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </RouterLink>
             </div>
           </div>
 
@@ -253,50 +255,52 @@ import { categories } from '@/data/categories'
             :modules="[Pagination]"
           >
             <SwiperSlide v-for="product in fundingProducts.slice(0, 4)" :key="product.id">
-              <div class="my-card course-card">
-                <div class="card-image">
-                  <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
-                  <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 10 天</span>
+              <RouterLink :to="`/product/${product.id}`">
+                <div class="my-card course-card">
+                  <div class="card-image">
+                    <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
+                    <div class="banner-tag-position">
+                      <span class="tag-primary">優惠倒數 10 天</span>
+                    </div>
+                  </div>
+                  <div class="card-body py-6 px-4">
+                    <h3 class="fs-6 mb-2">{{ product.title }}</h3>
+
+                    <!-- 作者 -->
+                    <div class="card-author py-3">
+                      <span class="material-symbols-outlined"> account_circle </span>
+                      <p>{{ product.author }}</p>
+                    </div>
+
+                    <!-- 募資區塊 -->
+                    <div class="card-funding">
+                      <div class="d-flex justify-content-between">
+                        <span class="fs-16 fw-semibold text-primary-100"
+                          >募資進度 {{ product.funding.progress }} %</span
+                        >
+                        <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
+                      </div>
+
+                      <div class="progress" style="height: 8px">
+                        <div
+                          :style="{ width: product.funding.progress + '%' }"
+                          class="progress-bar"
+                          role="progressbar"
+                          :aria-valuenow="product.funding.progress"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <div class="card-price">
+                        <span class="fs-6 text-neutral-100 fw-semibold"
+                          >NT$ {{ product.price }}
+                        </span>
+                        <span class="text-line">NT$ {{ product.origin_price }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">{{ product.title }}</h3>
-
-                  <!-- 作者 -->
-                  <div class="card-author py-3">
-                    <span class="material-symbols-outlined"> account_circle </span>
-                    <p>{{ product.author }}</p>
-                  </div>
-
-                  <!-- 募資區塊 -->
-                  <div class="card-funding">
-                    <div class="d-flex justify-content-between">
-                      <span class="fs-16 fw-semibold text-primary-100"
-                        >募資進度 {{ product.funding.progress }} %</span
-                      >
-                      <span class="fs-14">已有 {{ product.funding.joinCount }} 位同學加入</span>
-                    </div>
-
-                    <div class="progress" style="height: 8px">
-                      <div
-                        :style="{ width: product.funding.progress + '%' }"
-                        class="progress-bar"
-                        role="progressbar"
-                        :aria-valuenow="product.funding.progress"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <div class="card-price">
-                      <span class="fs-6 text-neutral-100 fw-semibold"
-                        >NT$ {{ product.price }}
-                      </span>
-                      <span class="text-line">NT$ {{ product.origin_price }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </RouterLink>
             </SwiperSlide>
           </swiper>
         </div>
@@ -339,7 +343,7 @@ import { categories } from '@/data/categories'
           :key="product.id"
           class="my-card course-card"
         >
-          <div>
+          <RouterLink :to="`/product/${product.id}`">
             <div class="card-image">
               <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
               <div class="banner-tag-position">
@@ -371,7 +375,7 @@ import { categories } from '@/data/categories'
                   <span class="fs-14">已有 {{ product.stats.joinCount }} 位同學加入</span>
                 </div>
                 <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
+                  <span class="material-symbols-outlined is-fill fill-yellow fs-12"> star </span>
                   <span class="text-black fs-14 fw-medium">{{ product.stats.rating }} </span>
                   <span class="text-grey-300 fs-14 fw-medium"
                     >({{ product.stats.ratingCount }})</span
@@ -379,7 +383,7 @@ import { categories } from '@/data/categories'
                 </div>
               </div>
             </div>
-          </div>
+          </RouterLink>
         </SwiperSlide>
 
         <!-- 自訂導航按鈕 -->
@@ -491,7 +495,7 @@ import { categories } from '@/data/categories'
               <div class="d-flex align-items-center gap-2 mb-2">
                 <span class="tag-neutral">全端開發</span>
                 <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
+                  <span class="material-symbols-outlined is-fill fill-yellow fs-12"> star </span>
                   <span class="text-black fs-14 fw-medium">4.8</span>
                   <span class="text-grey-300 fs-14 fw-medium">(1333)</span>
                 </div>
@@ -516,7 +520,7 @@ import { categories } from '@/data/categories'
               <div class="d-flex align-items-center gap-2 mb-2">
                 <span class="tag-neutral">行銷專家</span>
                 <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
+                  <span class="material-symbols-outlined is-fill fill-yellow fs-12"> star </span>
                   <span class="text-black fs-14 fw-medium">4.8</span>
                   <span class="text-grey-300 fs-14 fw-medium">(981)</span>
                 </div>
@@ -541,7 +545,7 @@ import { categories } from '@/data/categories'
               <div class="d-flex align-items-center gap-2 mb-2">
                 <span class="tag-neutral">音樂創作</span>
                 <div class="card-rating">
-                  <span class="material-symbols-outlined icon-fill-yellow"> star </span>
+                  <span class="material-symbols-outlined is-fill fill-yellow fs-12"> star </span>
                   <span class="text-black fs-14 fw-medium">4.6</span>
                   <span class="text-grey-300 fs-14 fw-medium">(222)</span>
                 </div>

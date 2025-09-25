@@ -43,7 +43,6 @@ const filteredProductsData = computed(() => {
 </script>
 
 <template>
-  {{ activeCategory }}
   <header class="site-header pt-8 pb-4">
     <div class="container">
       <nav class="navbar navbar-expand-xl">
@@ -265,61 +264,18 @@ const filteredProductsData = computed(() => {
             </ul>
           </div>
           <div class="offcanvas-body">
+            <!-- 探索全部 -->
             <ul class="list-group p-6">
               <li>
-                <a class="list-group-link mb-2" href="#"
-                  >探索全部<span class="material-symbols-outlined fs-5">chevron_right</span></a
+                <RouterLink :to="{ path: '/category' }" class="list-group-link mb-2"
+                  >探索全部</RouterLink
                 >
               </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >音樂<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >攝影<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >程式<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >藝術<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >人文<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >行銷<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >投資理財<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >心靈成長<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >職場技能<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
-              </li>
-              <li>
-                <a class="list-group-link" href="#"
-                  >生活品味<span class="material-symbols-outlined fs-5">chevron_right</span></a
-                >
+              <li v-for="cat in categories" :key="cat.name">
+                <RouterLink :to="{ path: `/category/${cat.slug}` }" class="list-group-link"
+                  >{{ cat.name }}
+                  <span class="material-symbols-outlined fs-5">chevron_right</span>
+                </RouterLink>
               </li>
             </ul>
             <button class="btn btn-primary-100 w-100 fw-semibold login">登入 / 註冊</button>

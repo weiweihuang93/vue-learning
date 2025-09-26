@@ -511,8 +511,7 @@ $position-values: (
 // Settings for the `<body>` element.
 
 $body-text-align: null !default;
-// $body-color:                $gray-900 !default; // 自定義
-$body-color: red !default; // 自定義
+$body-color: $neutral-80 !default; // 自定義
 $body-bg: $white !default;
 
 $body-secondary-color: rgba($body-color, 0.75) !default;

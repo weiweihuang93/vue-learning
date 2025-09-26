@@ -47,9 +47,9 @@ const filteredProductsData = computed(() => {
     <div class="container">
       <nav class="navbar navbar-expand-xl">
         <!-- logo -->
-        <a class="navbar-brand me-6" href="/">
+        <RouterLink :to="{ path: '/' }" class="navbar-brand me-6">
           <img class="logo" src="@/assets/images/logo.png" alt="logo" />
-        </a>
+        </RouterLink>
         <!-- 桌面版 探索 + form -->
         <div class="navbar-desktop d-xl-flex d-none">
           <ul class="navbar-nav">
@@ -161,7 +161,7 @@ const filteredProductsData = computed(() => {
                                 >
                               </div>
                               <div class="card-rating">
-                                <span class="material-symbols-outlined icon-fill-yellow">
+                                <span class="material-symbols-outlined is-fill fill-yellow fs-12">
                                   star
                                 </span>
                                 <span class="text-black fs-14 fw-medium"
@@ -293,7 +293,9 @@ const filteredProductsData = computed(() => {
   <footer class="footer bg">
     <div class="container">
       <div class="footer-top">
-        <img class="logo-white" src="@/assets/images/logo-white.png" alt="logo-white" />
+        <RouterLink :to="{ path: '/' }" class="navbar-brand me-6">
+          <img class="logo-white" src="@/assets/images/logo-white.png" alt="logo-white" />
+        </RouterLink>
         <ul class="footer-nav">
           <li><a href="#">常見問題</a></li>
           <li><a href="#">關於我們</a></li>

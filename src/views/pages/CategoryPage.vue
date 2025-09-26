@@ -199,7 +199,7 @@ const pages = computed(() => {
                   </div>
                 </div>
                 <div class="card-body py-6 px-4">
-                  <h3 class="fs-6 mb-2">{{ product.title }}</h3>
+                  <h3 class="line-clamp-2 h-64 fs-6 mb-2">{{ product.title }}</h3>
 
                   <!-- 作者 -->
                   <div class="card-author py-3">
@@ -335,7 +335,7 @@ const pages = computed(() => {
                       </div>
                     </div>
                     <div class="card-body p-4">
-                      <h3 class="line-clamp-2 h-2em fs-6 mb-2">{{ product.title }}</h3>
+                      <h3 class="line-clamp-2 h-64 fs-6 mb-2">{{ product.title }}</h3>
 
                       <div class="flex-between-center p-4">
                         <div class="card-author">

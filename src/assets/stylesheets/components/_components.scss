@@ -65,11 +65,10 @@
     background-color: $primary-100;
     color: $neutral-0;
   }
-  &.btn-primary-100, // 當被 active-class 套用
-  &.router-link-active {
-    color: $neutral-0;
+  &.active {
     background-color: $primary-100;
     border-color: $primary-100;
+    color: $neutral-0;
   }
 }
 

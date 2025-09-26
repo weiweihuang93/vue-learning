@@ -1,7 +1,11 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination } from 'swiper/modules'
+// Swiper 樣式
+import 'swiper/css'
+import 'swiper/css/navigation'
+import { categories } from '@/data/categories'
 
 import { useAppStore } from '@/composables/useAppStore'
 const { productsData } = useAppStore()
@@ -14,10 +18,28 @@ const fundingProducts = computed(() =>
   productsData.value.filter((product) => product.type === 'funding'),
 )
 
-// Swiper 樣式
-import 'swiper/css'
-import 'swiper/css/navigation'
-import { categories } from '@/data/categories'
+const selectedCategory = ref('全部')
+
+const subCategories = computed(() => {
+  const subs = fundingProducts.value.map((p) => p.subCategory)
+  return ['全部', ...new Set(subs)] // ["全部", "設計", "程式", ...]
+})
+
+const filteredProducts = computed(() => {
+  if (selectedCategory.value === '全部') {
+    return fundingProducts.value
+  }
+  return fundingProducts.value.filter((p) => p.subCategory === selectedCategory.value)
+})
+
+// 計算剩餘天數
+const daysLeft = (deadline) => {
+  const today = new Date()
+  const endDate = new Date(deadline)
+  const diffTime = endDate - today
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays > 0 ? diffDays : 0
+}
 </script>
 
 <template>
@@ -38,124 +60,29 @@ import { categories } from '@/data/categories'
           }"
           :modules="[Navigation]"
         >
-          <!-- Slide 1 -->
-          <SwiperSlide>
-            <div class="banner-info">
-              <img class="banner-image" src="@/assets/images/hero-2.png" alt="banner" />
-              <img
-                class="banner-deco-position"
-                src="@/assets/images/deco/flower-4.png"
-                alt="banner-deco"
-              />
-              <div class="banner-slogan-position">
-                <a class="btn btn-primary-100 banner-slogan" href="#">
-                  <h3 class="fs-lg-3 fs-14 text-neutral-0">探索感興趣的課程，今天立即上課</h3>
-                  <span class="material-symbols-outlined"> arrow_forward </span>
-                </a>
-              </div>
-              <div class="banner-tag-position">
-                <div class="banner-tag">
-                  <span class="tag-primary">熱銷課程 🔥</span>
-                  <h2 class="fs-lg-6 fs-14">給成人的鋼琴入門課，一小時教你彈奏上手！</h2>
+          <SwiperSlide v-for="product in normalProducts.slice(0, 5)" :key="product.id">
+            <RouterLink :to="`/product/${product.id}`">
+              <div class="banner-info">
+                <img class="banner-image" :src="product.imageUrl" :alt="product.title" />
+                <img
+                  class="banner-deco-position"
+                  src="@/assets/images/deco/flower-4.png"
+                  alt="banner-deco"
+                />
+                <div class="banner-slogan-position">
+                  <a class="btn btn-primary-100 banner-slogan" href="#">
+                    <h3 class="fs-lg-3 fs-14 text-neutral-0">探索感興趣的課程，今天立即上課</h3>
+                    <span class="material-symbols-outlined"> arrow_forward </span>
+                  </a>
+                </div>
+                <div class="banner-tag-position">
+                  <div class="banner-tag">
+                    <span class="tag-primary">熱銷課程 🔥</span>
+                    <h2 class="fs-lg-6 fs-14">{{ product.title }}</h2>
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-
-          <!-- Slide 2 -->
-          <SwiperSlide>
-            <div class="banner-info">
-              <img class="banner-image" src="@/assets/images/hero-3.png" alt="banner" />
-              <img
-                class="banner-deco-position"
-                src="@/assets/images/deco/flower-4.png"
-                alt="banner-deco"
-              />
-              <div class="banner-slogan-position">
-                <a class="btn btn-primary-100 banner-slogan" href="#">
-                  <h3 class="fs-lg-3 fs-14 text-neutral-0">探索感興趣的課程，今天立即上課</h3>
-                  <span class="material-symbols-outlined"> arrow_forward </span>
-                </a>
-              </div>
-              <div class="banner-tag-position">
-                <div class="banner-tag">
-                  <span class="tag-primary">熱銷課程 🔥</span>
-                  <h2 class="fs-lg-6 fs-14">健康廚房：營養均衡的素食料理指南</h2>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <!-- Slide 3 -->
-          <SwiperSlide>
-            <div class="banner-info">
-              <img class="banner-image" src="@/assets/images/hero-4.png" alt="banner" />
-              <img
-                class="banner-deco-position"
-                src="@/assets/images/deco/flower-4.png"
-                alt="banner-deco"
-              />
-              <div class="banner-slogan-position">
-                <a class="btn btn-primary-100 banner-slogan" href="#">
-                  <h3 class="fs-lg-3 fs-14 text-neutral-0">探索感興趣的課程，今天立即上課</h3>
-                  <span class="material-symbols-outlined"> arrow_forward </span>
-                </a>
-              </div>
-              <div class="banner-tag-position">
-                <div class="banner-tag">
-                  <span class="tag-primary">熱銷課程 🔥</span>
-                  <h2 class="fs-lg-6 fs-14">創意寫作工坊：從靈感到出版的全過程</h2>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <!-- Slide 4 -->
-          <SwiperSlide>
-            <div class="banner-info">
-              <img class="banner-image" src="@/assets/images/hero-1.png" alt="banner" />
-              <img
-                class="banner-deco-position"
-                src="@/assets/images/deco/flower-4.png"
-                alt="banner-deco"
-              />
-              <div class="banner-slogan-position">
-                <a class="btn btn-primary-100 banner-slogan" href="#">
-                  <h3 class="fs-lg-3 fs-14 text-neutral-0">探索感興趣的課程，今天立即上課</h3>
-                  <span class="material-symbols-outlined"> arrow_forward </span>
-                </a>
-              </div>
-              <div class="banner-tag-position">
-                <div class="banner-tag">
-                  <span class="tag-primary">熱銷課程 🔥</span>
-                  <h2 class="fs-lg-6 fs-14">掌握商業攝影：打造你的專業攝影事業</h2>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          <!-- Slide 5 -->
-          <SwiperSlide>
-            <div class="banner-info">
-              <img class="banner-image" src="@/assets/images/course-7.png" alt="banner" />
-              <img
-                class="banner-deco-position"
-                src="@/assets/images/deco/flower-4.png"
-                alt="banner-deco"
-              />
-              <div class="banner-slogan-position">
-                <a class="btn btn-primary-100 banner-slogan" href="#">
-                  <h3 class="fs-lg-3 fs-14 text-neutral-0">探索感興趣的課程，今天立即上課</h3>
-                  <span class="material-symbols-outlined"> arrow_forward </span>
-                </a>
-              </div>
-              <div class="banner-tag-position">
-                <div class="banner-tag">
-                  <span class="tag-primary">熱銷課程 🔥</span>
-                  <h2 class="fs-lg-6 fs-14">HTML & CSS 網頁設計基礎教程</h2>
-                </div>
-              </div>
-            </div>
+            </RouterLink>
           </SwiperSlide>
         </Swiper>
 
@@ -179,31 +106,39 @@ import { categories } from '@/data/categories'
             <h2 class="fs-1 mb-2">火熱募資課程</h2>
             <span class="fs-6">現在購買最優惠✨</span>
             <div class="category-group py-lg-8 py-6 overflow-auto">
-              <button class="btn btn-sm btn-primary-100">全部</button>
-              <button class="btn btn-sm btn-outline-neutral-40">🍽️ 烹飪料理</button>
-              <button class="btn btn-sm btn-outline-neutral-40">📊 數據分析</button>
-              <button class="btn btn-sm btn-outline-neutral-40">🎼 音樂製作</button>
-              <button class="btn btn-sm btn-outline-neutral-40">📝 創意寫作</button>
-              <button class="btn btn-sm btn-outline-neutral-40">💬 語言學習</button>
-              <button class="btn btn-sm btn-outline-neutral-40">🖌️ 藝術創作</button>
+              <button
+                v-for="sub in subCategories"
+                :key="sub"
+                @click="selectedCategory = sub"
+                class="btn btn-sm btn-outline-neutral-40"
+                :class="{ active: sub === selectedCategory }"
+              >
+                {{ sub }}
+              </button>
             </div>
-            <button class="btn btn-primary-100 fw-semibold d-lg-block d-none">更多募資課程</button>
+            <RouterLink
+              :to="`/category`"
+              class="btn btn-primary-100 fw-semibold d-lg-inline-block d-none"
+              >更多募資課程</RouterLink
+            >
           </div>
         </div>
         <div class="col-lg-8">
           <!-- Breakpoint-lg -->
           <div class="row g-6 d-lg-flex d-none">
-            <div v-for="product in fundingProducts.slice(0, 4)" class="col-lg-6" :key="product.id">
+            <div v-for="product in filteredProducts.slice(0, 4)" class="col-lg-6" :key="product.id">
               <RouterLink :to="`/product/${product.id}`">
                 <div class="my-card course-card">
                   <div class="card-image">
                     <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
                     <div class="banner-tag-position">
-                      <span class="tag-primary">優惠倒數 10 天</span>
+                      <span class="tag-primary"
+                        >優惠倒數 {{ daysLeft(product.funding.deadline) }} 天</span
+                      >
                     </div>
                   </div>
                   <div class="card-body py-6 px-4">
-                    <h3 class="fs-6 mb-2">{{ product.title }}</h3>
+                    <h3 class="line-clamp-2 h-48 fs-6 mb-2">{{ product.title }}</h3>
 
                     <!-- 作者 -->
                     <div class="card-author py-3">
@@ -254,17 +189,19 @@ import { categories } from '@/data/categories'
             :pagination="{ clickable: true }"
             :modules="[Pagination]"
           >
-            <SwiperSlide v-for="product in fundingProducts.slice(0, 4)" :key="product.id">
+            <SwiperSlide v-for="product in filteredProducts" :key="product.id">
               <RouterLink :to="`/product/${product.id}`">
                 <div class="my-card course-card">
                   <div class="card-image">
                     <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
                     <div class="banner-tag-position">
-                      <span class="tag-primary">優惠倒數 10 天</span>
+                      <span class="tag-primary"
+                        >優惠倒數 {{ daysLeft(product.funding.deadline) }} 天</span
+                      >
                     </div>
                   </div>
                   <div class="card-body py-6 px-4">
-                    <h3 class="fs-6 mb-2">{{ product.title }}</h3>
+                    <h3 class="line-clamp-2 h-48 fs-6 mb-2">{{ product.title }}</h3>
 
                     <!-- 作者 -->
                     <div class="card-author py-3">
@@ -305,7 +242,9 @@ import { categories } from '@/data/categories'
           </swiper>
         </div>
         <div class="col-12 d-lg-none d-block">
-          <button class="btn btn-primary-100 w-100 fw-semibold mt-6">更多募資課程</button>
+          <RouterLink :to="`/category`" class="btn btn-primary-100 w-100 fw-semibold mt-6"
+            >更多募資課程</RouterLink
+          >
         </div>
       </div>
     </div>
@@ -339,7 +278,7 @@ import { categories } from '@/data/categories'
         :modules="[Navigation]"
       >
         <SwiperSlide
-          v-for="product in normalProducts"
+          v-for="product in [...normalProducts].reverse()"
           :key="product.id"
           class="my-card course-card"
         >
@@ -353,7 +292,7 @@ import { categories } from '@/data/categories'
               </div>
             </div>
             <div class="card-body p-4">
-              <h3 class="line-clamp-2 h-2em fs-6 mb-2">{{ product.title }}</h3>
+              <h3 class="line-clamp-2 h-64 fs-6 mb-2">{{ product.title }}</h3>
 
               <div class="flex-between-center">
                 <!-- 作者 -->

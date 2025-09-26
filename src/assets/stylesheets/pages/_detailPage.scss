@@ -54,6 +54,10 @@
       flex-direction: column;
     }
 
+    .card-image {
+      flex: unset;
+    }
+
     .card-btn {
       .btn {
         flex: 1;
@@ -96,6 +100,12 @@
 
 .feature-item:not(:last-child) {
   border-right: 1px solid $neutral-40;
+}
+
+.card-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 @media (max-width: 1400px) {

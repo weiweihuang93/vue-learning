@@ -40,6 +40,44 @@ const totalUnits = computed(() => {
     return sum + (cur.unitCount || 0)
   }, 0)
 })
+
+// 把 "n 小時 m 分鐘" 轉換成總分鐘
+function parseDuration(durationStr) {
+  let hours = 0
+  let minutes = 0
+
+  // 找「小時」
+  const hourMatch = durationStr.match(/(\d+)\s*小時/)
+  if (hourMatch) {
+    hours = parseInt(hourMatch[1], 10)
+  }
+
+  // 找「分鐘」
+  const minuteMatch = durationStr.match(/(\d+)\s*分鐘/)
+  if (minuteMatch) {
+    minutes = parseInt(minuteMatch[1], 10)
+  }
+
+  return hours * 60 + minutes
+}
+
+// 計算課程總時長
+const totalMinutes = computed(() => {
+  if (!productData.value?.curriculum) return 0
+  return productData.value.curriculum.reduce((sum, unit) => {
+    return sum + parseDuration(unit.duration || '')
+  }, 0)
+})
+
+// 轉成「小時 分鐘」格式顯示
+const totalDuration = computed(() => {
+  const hours = Math.floor(totalMinutes.value / 60)
+  const minutes = totalMinutes.value % 60
+  if (hours > 0) {
+    return `${hours} 小時 ${minutes} 分鐘`
+  }
+  return `${minutes} 分鐘`
+})
 </script>
 
 <template>
@@ -111,7 +149,7 @@ const totalUnits = computed(() => {
               <span
                 v-for="(tag, index) in productData.authorTag"
                 :key="index"
-                class="badge bg-secondary"
+                class="badge bg-primary-100"
               >
                 {{ tag }}
               </span>
@@ -119,7 +157,7 @@ const totalUnits = computed(() => {
           </div>
           <div class="feature-item">
             <h6>{{ productData?.curriculum?.length }} 章 {{ totalUnits }} 單元</h6>
-            <p>{{ productData?.curriculum?.length }} 個課後學習作業</p>
+            <p>總時長 {{ totalDuration }}</p>
           </div>
           <div class="feature-item">
             <h6>募資進度</h6>
@@ -141,7 +179,7 @@ const totalUnits = computed(() => {
               <span
                 v-for="(tag, index) in productData.authorTag"
                 :key="index"
-                class="badge bg-secondary"
+                class="badge bg-primary"
               >
                 {{ tag }}
               </span>
@@ -149,12 +187,15 @@ const totalUnits = computed(() => {
           </div>
           <div class="feature-item">
             <h6>{{ productData?.curriculum?.length }} 章 {{ totalUnits }} 單元</h6>
-            <p>{{ productData?.curriculum?.length }} 個課後學習作業</p>
+            <p>總時長 {{ totalDuration }}</p>
           </div>
           <div class="feature-item">
-            <div class="d-flex align-items-center gap-1">
-              <span class="material-symbols-outlined is-fill fill-yellow"> star </span>
-              <h6>4.0</h6>
+            <div class="card-rating">
+              <span class="material-symbols-outlined is-fill fill-yellow fs-12"> star </span>
+              <h6>
+                {{ productData.stats?.rating
+                }}<span class="fs-16">({{ productData.stats?.ratingCount }})</span>
+              </h6>
             </div>
             <p>{{ productData.stats?.commentCount }} 條評論</p>
           </div>
@@ -218,7 +259,10 @@ const totalUnits = computed(() => {
                   <img class="w-24" src="@/assets/images/deco/flower-5.png" alt="flower-5" />
                   <h2 class="fs-5">預計單元</h2>
                 </div>
-                <p>{{ productData?.curriculum?.length }} 章 {{ totalUnits }} 單元｜總時長 分鐘</p>
+                <p>
+                  {{ productData?.curriculum?.length }} 章 {{ totalUnits }} 單元｜總時長
+                  {{ totalDuration }}
+                </p>
               </div>
 
               <!-- 課程大綱 Accordion -->
@@ -298,9 +342,9 @@ const totalUnits = computed(() => {
                 </div>
                 <div class="instructor-item gap-2 mb-4">
                   <span
-                    v-for="(tag, index) in productData.authorSkills"
+                    v-for="(tag, index) in productData.authorTag"
                     :key="index"
-                    class="tag-neutral"
+                    class="tag-primary"
                   >
                     {{ tag }}
                   </span>

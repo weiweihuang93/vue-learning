@@ -43,11 +43,11 @@ const filteredProductsData = computed(() => {
 </script>
 
 <template>
-  <header class="site-header pt-8 pb-4">
+  <header class="site-header pt-lg-8 p-4">
     <div class="container">
       <nav class="navbar navbar-expand-xl">
         <!-- logo -->
-        <RouterLink :to="{ path: '/' }" class="navbar-brand me-6">
+        <RouterLink :to="{ path: '/' }" class="navbar-brand me-lg-6">
           <img class="logo" src="@/assets/images/logo.png" alt="logo" />
         </RouterLink>
         <!-- 桌面版 探索 + form -->

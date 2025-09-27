@@ -98,6 +98,12 @@
       background-color: $neutral-40;
     }
   }
+
+  @media (max-width: 992px) {
+    .category-link {
+      width: 160px;
+    }
+  }
 }
 
 //
@@ -107,7 +113,9 @@
   }
 
   @media (max-width: 992px) {
-    width: 327px;
+    .course-card {
+      width: 327px;
+    }
   }
 }
 
@@ -175,7 +183,9 @@
 
     .course-card {
       .card-image {
-        width: 30%;
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
       }
 
       .card-img-top {
@@ -184,6 +194,11 @@
 
       .card-body {
         flex: 1 1 auto; // 剩餘空間填滿
+      }
+
+      .banner-tag-position {
+        top: 4px;
+        left: 4px;
       }
     }
 

@@ -289,14 +289,12 @@
   }
 }
 
-// nav-course
-.nav-course {
-  background-color: $neutral-0;
-  border-bottom: 1px solid $neutral-40;
-}
-
 // 共用
 .section-section {
+  .nav-course {
+    background-color: $neutral-0;
+    border-bottom: 1px solid $neutral-40;
+  }
   .card-operate {
     display: flex;
     gap: 16px;
@@ -315,6 +313,13 @@
     align-items: center;
     font-size: 24px;
     padding: 16px;
+  }
+
+  @media (max-width: 992px) {
+    .nav-item {
+      width: 50%;
+      text-align: center;
+    }
   }
 }
 

@@ -98,6 +98,15 @@ const totalPages = computed(() => {
 const pages = computed(() => {
   return Array.from({ length: totalPages.value }, (_, i) => i + 1)
 })
+
+// 計算剩餘天數
+const daysLeft = (deadline) => {
+  const today = new Date()
+  const endDate = new Date(deadline)
+  const diffTime = endDate - today
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays > 0 ? diffDays : 0
+}
 </script>
 
 <template>
@@ -195,7 +204,9 @@ const pages = computed(() => {
                 <div class="card-image h-300">
                   <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
                   <div class="banner-tag-position">
-                    <span class="tag-primary">優惠倒數 10 天</span>
+                    <span class="tag-primary"
+                      >優惠倒數 {{ daysLeft(product.funding.deadline) }} 天</span
+                    >
                   </div>
                 </div>
                 <div class="card-body py-6 px-4">
@@ -278,7 +289,7 @@ const pages = computed(() => {
   <div class="section-courseList py-lg-11 py-8">
     <div class="container">
       <div class="courseList-group">
-        <h2 class="fs-3">
+        <h2 class="fs-6 fs-lg-3">
           查看 {{ normalProducts.length }} 筆與「
           <span class="text-primary-100">{{
             currentCategoryData.sub?.name || currentCategoryData.main?.name || '探索全部'
@@ -323,18 +334,19 @@ const pages = computed(() => {
             <div v-for="product in paginatedNormalProducts" :key="product.id" class="col">
               <RouterLink :to="`/product/${product.id}`">
                 <div class="my-card course-card">
-                  <div class="d-flex d-lg-block">
+                  <div class="d-flex gap-2 d-lg-block">
                     <div class="card-image">
                       <img class="card-img-top" :src="product.imageUrl" :alt="product.title" />
                       <div class="banner-tag-position">
-                        <span class="tag-alert"
+                        <span class="tag-alert d-none d-lg-block"
                           >{{
                             product.discount ? '限時 ' + product.discount + ' 折 🔥' : '限時優惠🔥'
                           }}
                         </span>
+                        <span class="tag-sm-alert d-md-block d-lg-none">優惠 </span>
                       </div>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-lg-4">
                       <h3 class="line-clamp-2 h-64 fs-6 mb-2">{{ product.title }}</h3>
 
                       <div class="flex-between-center p-4">
@@ -344,7 +356,7 @@ const pages = computed(() => {
                         </div>
 
                         <div class="card-price-col">
-                          <span class="fs-6 text-primary-100 fw-semibold"
+                          <span class="fs-14 fs-lg-6 text-primary-100 fw-semibold"
                             >NT$ {{ product.price }}
                           </span>
                           <span class="text-line">NT$ {{ product.origin_price }}</span>

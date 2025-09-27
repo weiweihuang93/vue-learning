@@ -12,6 +12,7 @@ span {
 }
 
 img {
+  max-width: 100%;
   object-fit: cover;
   vertical-align: middle;
 }
@@ -117,6 +118,12 @@ ul {
 .logo {
   max-width: 200px;
 }
+@media (max-width: 992px) {
+  .logo {
+    max-width: 125px;
+  }
+}
+
 .logo-white {
   max-width: 200px;
 }

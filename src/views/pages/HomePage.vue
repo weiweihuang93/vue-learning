@@ -180,7 +180,7 @@ const daysLeft = (deadline) => {
 
           <!-- Breakpoint-Swiper -->
           <swiper
-            class="courseSwiper d-lg-none px-4"
+            class="courseSwiper d-lg-none p-4"
             :loop="true"
             :breakpoints="{
               768: { slidesPerView: 2.2, spaceBetween: 24 },
@@ -492,7 +492,7 @@ const daysLeft = (deadline) => {
               <p class="mb-6">
                 K. Lee
                 的教學風格親切且耐心，能夠循序漸進地引導學生進入樂團的世界。學生們紛紛表示，K. Lee
-                的課程讓他們對音樂產生了濃厚的興趣！
+                的課程讓他們對音樂產生了濃厚的興趣，並提升實作能力！
               </p>
               <button class="btn btn-primary-100 text-nowrap fs-16 fw-semibold mt-auto">
                 探索 K. Lee 的教學課程
@@ -501,7 +501,7 @@ const daysLeft = (deadline) => {
           </div>
         </SwiperSlide>
 
-        <div class="swiper-pagination d-xl-none d-block"></div>
+        <div class="swiper-pagination d-xxl-none d-xl-block"></div>
       </swiper>
     </div>
   </section>
